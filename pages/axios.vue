@@ -2,23 +2,43 @@
   <section class="container">
     <h1>{{ title }}</h1>
     <p>{{ message }}</p>
-    <pre>{{ html_data }}</pre>
+    <table>
+      <tr>
+        <th>User ID</th>
+        <td>{{ json_data.userId }}</td>
+      </tr>
+      <tr>
+        <th>ID</th>
+        <td>{{ json_data.id }}</td>
+      </tr>
+      <tr>
+        <th>Title</th>
+        <td>{{ json_data.title }}</td>
+      </tr>
+      <tr>
+        <th>Body</th>
+        <td>{{ json_data.body }}</td>
+      </tr>
+    </table>
   </section>
 </template>
 
 <script>
 const axios = require('axios')
 
-const url = '/README.md'
+// const url = '/README.md'
+const url = 'https://jsonplaceholder.typicode.com/posts/'
 
 export default {
   async asyncData() {
-    const result = await axios.get(url)
-    return { html_data: result.data }
+    const id = 1 // ●id番号
+    const result = await axios.get(url + id)
+    return { json_data: result.data }
   },
   data() {
     return {
       title: 'Axios',
+      msg: '',
       message: 'axios sample.',
     }
   },
@@ -26,6 +46,17 @@ export default {
 </script>
 
 <style>
+tr th {
+  width: 150px;
+  background-color: darkblue;
+  color: white;
+  font-size: 16pt;
+}
+tr td {
+  padding: 5px 10px;
+  background-color: #eef;
+  font-size: 14pt;
+}
 .container {
   padding: 5px 10px;
 }
