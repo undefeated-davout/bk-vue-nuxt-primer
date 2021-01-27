@@ -6,7 +6,10 @@
     <button @click="getData">Click</button>
     <hr />
     <ul>
-      <li>{{ json_data }}</li>
+      <li v-for="(data, key) in json_data" :key="key">
+        <strong>{{ key }}</strong
+        ><br />{{ data }}
+      </li>
     </ul>
   </section>
 </template>
@@ -14,8 +17,7 @@
 <script>
 const axios = require('axios')
 
-const url =
-  'https://プロジェクト.firebaseio.com/person.json?orderBy=%22$key%22&equalTo=%22' // ★
+const url = 'https://プロジェクト.firebaseio.com/person.json?orderBy=%22age%22' // ★
 
 export default {
   data() {
@@ -28,11 +30,12 @@ export default {
   },
   methods: {
     getData() {
-      const idUrl = url + this.find + '%22'
+      const range = this.find.split(',')
+      const ageUrl = url + '&startAt=' + range[0] + '&endAt=' + range[1]
       axios
-        .get(idUrl)
+        .get(ageUrl)
         .then((res) => {
-          this.message = 'get ID=' + this.find
+          this.message = 'get: ' + range[0] + ' < age < ' + range[1]
           this.json_data = res.data
         })
         .catch(() => {
