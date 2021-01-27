@@ -2,8 +2,30 @@
   <section class="container">
     <h1>{{ title }}</h1>
     <p>{{ message }}</p>
-    <input v-model="find" />
-    <button @click="getData">Click</button>
+    <table>
+      <tr>
+        <th>Email</th>
+        <td><input v-model="email" /></td>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <td><input v-model="username" /></td>
+      </tr>
+      <tr>
+        <th>Age</th>
+        <td><input v-model="age" type="number" /></td>
+      </tr>
+      <tr>
+        <th>Tel</th>
+        <td><input v-model="tel" /></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td>
+          <button @click="addData">Click</button>
+        </td>
+      </tr>
+    </table>
     <hr />
     <ul>
       <li v-for="(data, key) in json_data" :key="key">
@@ -17,25 +39,44 @@
 <script>
 const axios = require('axios')
 
-const url = 'https://プロジェクト.firebaseio.com/person.json?orderBy=%22age%22' // ★
+const url = 'https://プロジェクト.firebaseio.com/person' // ★
 
 export default {
   data() {
     return {
       title: 'Axios',
-      find: '',
+      email: '',
+      username: '',
+      tel: '',
+      age: 0,
       message: 'axios sample.',
       json_data: {},
     }
   },
+  created() {
+    this.getData()
+  },
   methods: {
+    addData() {
+      const addUrl = url + '/' + this.email + '.json'
+      const data = {
+        name: this.username,
+        age: this.age,
+        tel: this.tel,
+      }
+      axios.put(addUrl, data).then((re) => {
+        this.email = ''
+        this.username = ''
+        this.age = 0
+        this.tel = ''
+        this.getData()
+      })
+    },
     getData() {
-      const range = this.find.split(',')
-      const ageUrl = url + '&startAt=' + range[0] + '&endAt=' + range[1]
       axios
-        .get(ageUrl)
+        .get(url + '.json')
         .then((res) => {
-          this.message = 'get: ' + range[0] + ' < age < ' + range[1]
+          this.message = 'get all data.'
           this.json_data = res.data
         })
         .catch(() => {
