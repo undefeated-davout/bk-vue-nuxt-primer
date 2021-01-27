@@ -2,6 +2,11 @@
   <section class="container">
     <h1>{{ title }}</h1>
     <p>{{ message }}</p>
+    <div>
+      <input v-model="msg" type="text" />
+      <button @click="doClick">Click</button>
+    </div>
+    <hr />
     <table>
       <tr>
         <th>User ID</th>
@@ -30,22 +35,38 @@ const axios = require('axios')
 const url = 'https://jsonplaceholder.typicode.com/posts/'
 
 export default {
-  async asyncData() {
-    const id = 1 // ●id番号
-    const result = await axios.get(url + id)
-    return { json_data: result.data }
-  },
   data() {
     return {
       title: 'Axios',
-      msg: '',
       message: 'axios sample.',
+      msg: '',
+      json_data: {},
     }
+  },
+  methods: {
+    doClick(event) {
+      axios
+        .get(url + this.msg)
+        .then((res) => {
+          this.message = 'get ID=' + this.msg
+          this.json_data = res.data
+        })
+        .catch(() => {
+          this.message = 'ERROR!'
+          this.json_data = {}
+        })
+    },
   },
 }
 </script>
 
 <style>
+input {
+  font-size: 14pt;
+}
+button {
+  font-size: 14pt;
+}
 tr th {
   width: 150px;
   background-color: darkblue;
