@@ -48,6 +48,8 @@
     <hr />
     <div class="nav">
       <span @click="prev">&lt;prev</span>｜ <span @click="next">next&gt;</span>
+      <br />
+      <span>ページ: {{ page + 1 }}</span>
     </div>
   </section>
 </template>
@@ -64,9 +66,9 @@ export default {
     }
   },
   computed: {
-    memo() {
-      return this.$store.state.memo.memo
-    },
+    // memo() {
+    //   return this.$store.state.memo.memo
+    // },
     page_items() {
       if (this.find_flg) {
         const arr = []
