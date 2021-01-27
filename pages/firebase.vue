@@ -6,29 +6,12 @@
       <tr>
         <th>Email</th>
         <td><input v-model="email" /></td>
-      </tr>
-      <tr>
-        <th>Name</th>
-        <td><input v-model="username" /></td>
-      </tr>
-      <tr>
-        <th>Age</th>
-        <td><input v-model="age" type="number" /></td>
-      </tr>
-      <tr>
-        <th>Tel</th>
-        <td><input v-model="tel" /></td>
-      </tr>
-      <tr>
-        <th></th>
-        <td>
-          <button @click="addData">Click</button>
-        </td>
+        <td><button @click="delData">Click</button></td>
       </tr>
     </table>
     <hr />
-    <ul>
-      <li v-for="(data, key) in json_data" :key="key">
+    <ul v-for="(data, key) in json_data" :key="key">
+      <li>
         <strong>{{ key }}</strong
         ><br />{{ data }}
       </li>
@@ -46,9 +29,6 @@ export default {
     return {
       title: 'Axios',
       email: '',
-      username: '',
-      tel: '',
-      age: 0,
       message: 'axios sample.',
       json_data: {},
     }
@@ -57,18 +37,12 @@ export default {
     this.getData()
   },
   methods: {
-    addData() {
-      const addUrl = url + '/' + this.email + '.json'
-      const data = {
-        name: this.username,
-        age: this.age,
-        tel: this.tel,
-      }
-      axios.put(addUrl, data).then((re) => {
+    delData() {
+      const delUrl = url + '/' + this.email + '.json'
+
+      axios.delete(delUrl).then((re) => {
+        this.message = this.email + 'を削除しました。'
         this.email = ''
-        this.username = ''
-        this.age = 0
-        this.tel = ''
         this.getData()
       })
     },
@@ -76,7 +50,6 @@ export default {
       axios
         .get(url + '.json')
         .then((res) => {
-          this.message = 'get all data.'
           this.json_data = res.data
         })
         .catch(() => {
