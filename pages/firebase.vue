@@ -14,7 +14,8 @@
 <script>
 const axios = require('axios')
 
-const url = 'https://プロジェクト.firebaseio.com/person/' // ★
+const url =
+  'https://プロジェクト.firebaseio.com/person.json?orderBy=%22$key%22&equalTo=%22' // ★
 
 export default {
   data() {
@@ -27,7 +28,7 @@ export default {
   },
   methods: {
     getData() {
-      const idUrl = url + this.find + '.json'
+      const idUrl = url + this.find + '%22'
       axios
         .get(idUrl)
         .then((res) => {
