@@ -155,6 +155,7 @@ export default {
 h1 {
   font-size: 60pt;
   color: #345980;
+  margin: 10px 0;
 }
 p {
   padding-top: 5px;

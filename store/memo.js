@@ -27,7 +27,6 @@ export const mutations = {
     state.page = p
   },
   remove(state, obj) {
-    // const num = 0
     for (let i = 0; i < state.memo.length; i++) {
       const ob = state.memo[i]
       if (
